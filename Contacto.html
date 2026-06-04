@@ -50,7 +50,6 @@
 
   <input type="hidden" name="access_key" value="9190845b-a07e-45fd-8eac-d90c535dd378" />
   <input type="hidden" name="subject" value="Nuevo mensaje desde tu portfolio" />
-  <input type="hidden" name="redirect" value="https://hectorbh78.github.io/PortfolioHector.github.io/Contacto.html" />
 
   <div class="form-group">
     <label>Nombre completo</label>
@@ -78,7 +77,38 @@
     </footer>
 
     <script>
-      document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const form = document.querySelector('.pro-form');
+  const btn = document.querySelector('.btn-submit');
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+
+    const data = new FormData(form);
+
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: data
+    });
+
+    if (res.ok) {
+      form.innerHTML = `
+        <div style="text-align: center; padding: 2rem;">
+          <p style="font-size: 2rem;">✅</p>
+          <h3>¡Mensaje enviado correctamente!</h3>
+          <p>Me pondré en contacto contigo lo antes posible.</p>
+        </div>
+      `;
+    } else {
+      btn.textContent = 'Enviar mensaje';
+      btn.disabled = false;
+      alert('Error al enviar. Inténtalo de nuevo.');
+    }
+  });
+</script>
   </body>
 </html>
